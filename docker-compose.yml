@@ -1,0 +1,16 @@
+# Levanta solo el frontend. El backend vive en su propio repositorio
+# (exchange-divisas-DAW2026) con su propio docker-compose.yml y debe estar
+# corriendo en http://localhost:5198 para que la aplicacion funcione.
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        API_URL: http://localhost:5198/api
+        ASSET_BASE_URL: http://localhost:5198
+    image: xchang-frontend:latest
+    container_name: xchang-frontend
+    ports:
+      - "9200:8080"
+    restart: unless-stopped
