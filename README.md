@@ -39,4 +39,4 @@ docker compose up --build
 
 Si el backend corre en otra direccion, cambiar `API_URL` y `ASSET_BASE_URL` en `docker-compose.yml`.
 
-El documento de la entrega está en `Formato de Proyecto 2026-02.docx`.
+El documento de la entrega está en `Proyecto 2026-02 - GRUPO-1.docx`.
