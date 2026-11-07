@@ -1,0 +1,9 @@
+# En Vercel el frontend se publica como sitio estatico (vercel.json: quasar build -> dist/spa).
+# Los archivos de Docker son solo para el despliegue local con docker compose;
+# si Vercel los ve, despliega un contenedor en lugar del sitio estatico.
+Dockerfile
+.dockerignore
+docker-compose.yml
+nginx.conf
+test
+coverage
