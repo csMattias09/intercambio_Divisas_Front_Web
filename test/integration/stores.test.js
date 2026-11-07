@@ -1,7 +1,7 @@
 import MockAdapter from 'axios-mock-adapter'
 import { createPinia, setActivePinia } from 'pinia'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { api } from '@/boot/axios'
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import iniciarAxios, { api } from '@/boot/axios'
 import { useAuthStore } from '@/stores/auth'
 import { useBilleteraStore } from '@/stores/billetera'
 import { normalizarMensajeError } from '@/utils/validaciones'
@@ -24,6 +24,14 @@ describe('stores conectados a la API', () => {
       estado: 'Activo',
     },
   }
+
+  beforeAll(() => {
+    // Registra los interceptores reales (header Authorization y manejo de 401)
+    iniciarAxios({
+      app: { config: { globalProperties: {} } },
+      router: { currentRoute: { value: { name: 'mercado' } }, push: vi.fn() },
+    })
+  })
 
   beforeEach(() => {
     setActivePinia(createPinia())
@@ -73,7 +81,9 @@ describe('stores conectados a la API', () => {
 
     await auth.logout()
 
-    expect(http.history.post.map((p) => p.url)).toContain('/auth/logout')
+    const peticionLogout = http.history.post.find((p) => p.url === '/auth/logout')
+    expect(peticionLogout.headers.Authorization).toBe('Bearer token-de-prueba')
+    expect(JSON.parse(peticionLogout.data)).toEqual({ token: 'token-de-prueba' })
     expect(auth.isAuthenticated).toBe(false)
     expect(sessionStorage.getItem('xchang_token')).toBeNull()
     expect(billetera.saldos).toEqual([])

@@ -11,12 +11,12 @@ describe('boot de axios', () => {
     iniciarAxios({ app: { config: { globalProperties: {} } }, router })
     const http = new MockAdapter(api)
     http.onGet('/Moneda').reply(401)
-    localStorage.setItem('xchang_token', 'token-vencido')
+    sessionStorage.setItem('xchang_token', 'token-vencido')
 
     await expect(getMonedas()).rejects.toMatchObject({ response: { status: 401 } })
 
     expect(router.push).toHaveBeenCalledWith({ name: 'login' })
-    expect(localStorage.getItem('xchang_token')).toBeNull()
+    expect(sessionStorage.getItem('xchang_token')).toBeNull()
     http.restore()
   })
 })

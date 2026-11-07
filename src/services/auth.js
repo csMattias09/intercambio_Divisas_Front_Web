@@ -8,7 +8,7 @@ export function register(payload) {
   return api.post('/auth/register', payload)
 }
 
-export function logout(token = localStorage.getItem('xchang_token')) {
+export function logout(token = sessionStorage.getItem('xchang_token')) {
   return api.post('/auth/logout', { token })
 }
 

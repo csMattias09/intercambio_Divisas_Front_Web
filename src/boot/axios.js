@@ -7,7 +7,7 @@ const api = axios.create({
 
 export default defineBoot(({ app, router }) => {
   api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('xchang_token')
+    const token = sessionStorage.getItem('xchang_token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -22,8 +22,8 @@ export default defineBoot(({ app, router }) => {
       )
 
       if (error.response?.status === 401 && !isAuthRoute) {
-        localStorage.removeItem('xchang_token')
-        localStorage.removeItem('xchang_user')
+        sessionStorage.removeItem('xchang_token')
+        sessionStorage.removeItem('xchang_user')
         if (router.currentRoute.value.name !== 'login') {
           router.push({ name: 'login' })
         }
