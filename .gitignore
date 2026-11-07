@@ -28,3 +28,5 @@ yarn-error.log*
 
 # Reporte de cobertura de Vitest
 coverage
+
+.vercel
